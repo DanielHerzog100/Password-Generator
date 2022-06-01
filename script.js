@@ -87,23 +87,79 @@ var upperCasedCharacters = [
   'Y',
   'Z',
 ];
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
-function generatePassword (){
-  var pwdChoosen = [];
-  var pwdLength = parseInt (prompt ("How long do you want your password?"));
+var password = [];
+var pwdLength;
+var pwdSpecial;
+var pwdUpper;
+var pwdLower;
+var pwdNumber;
+var pwdChoosen = [];
+
+function passwordLength () {
+var pwdLength = parseInt (prompt ("How long do you want your password?"));
+if (pwdLength < 8 || pwdLength > 128){
+  alert ('Too many characers or not enough')
+  passwordLength ();
+  return null;
+} else if (pwdLength >= 8 && pwdLength <= 128){
+  console.log(pwdLength);
+  userChoices ();
+  return pwdLength;
+
+} else {
+  alert ("Wrong syntax, please enter a number");
+  passwordLength ();
+  return null;
+} }
+function userChoices () {
   var pwdSpecial = confirm ("Click ok if you want special characters in your password");
   var pwdUpper = confirm ("Click ok if you want uppercase");
   var pwdLower = confirm ("Click ok if you want lowercase");
   var pwdNumber = confirm ("Click ok if you want a number");
-if (pwdSpecial === true) {
-  pwdChoosen = pwdChoosen.concat(pwdSpecial)
+  if (!pwdSpecial && !pwdUpper && !pwdLower && ! pwdNumber){
+    alert ("Pick at least one option");
+    userChoices ();
+    return null;
+  }
+console.log (pwdSpecial);
+console.log (pwdUpper);
+console.log (pwdLower);
+console.log (pwdNumber);
+concatArray ();
 }
-
+function concatArray () {
+  var pwdChoosen = [];
+  if (pwdSpecial) {
+    pwdChoosen = pwdChoosen.concat(pwdSpecial)
+  }
+  if (pwdUpper) {
+    pwdChoosen = pwdChoosen.concat(pwdUpper)
+  }
+  if (pwdLower) {
+   pwdChoosen = pwdChoosen.concat(pwdLower) 
+  }
+  if (pwdNumber) {
+    pwdChoosen = pwdChoosen.concat(pwdNumber)
+  }
+  console.log (pwdChoosen);
+  var password = passLoop ();
+  var passwordText = document.querySelector ("#password");
+  passwordText.value = password;
 }
+function passLoop() {
+password = [];
+for (let i = 0; i < passwordLength(); i++) {
+  password = password.concat (pwdChoosen[Math.floor (Math.random()* pwdChoosen.length)])
+   }
+   console.log (passwordLength())
+   console.log (password)
+   return password.join ("");
+}  
+// Assignment Code
+var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  var password = passwordLength();
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
